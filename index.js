@@ -11,7 +11,6 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.9ntgkem.mongodb.net/?retryWrites=true&w=majority`;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.faeigco.mongodb.net/?retryWrites=true&w=majority`;
 
 const client = new MongoClient(uri, {
@@ -24,8 +23,8 @@ async function run() {
   try {
     await client.connect();
     // // console.log("database connect");
-    const userCollection = client.db("shifting-service").collection("user");
-    const acCollection = client.db("shifting-service").collection("ac");
+    const userCollection = client.db("bookBuffet").collection("user");
+    // const acCollection = client.db("shifting-service").collection("ac");
     // const allServicesCollection = client
     //   .db("shifting-service")
     //   .collection("allServices");
@@ -41,6 +40,14 @@ async function run() {
     //   const result = await userCollection.insertOne(newProduct);
     //   res.send(result);
     // });
+
+    // get all user
+    app.get("/user", async (req, res) => {
+      const query = {};
+      const cursor = userCollection.find(query);
+      const mainProducts = await cursor.toArray();
+      res.send(mainProducts);
+    });
     // // get by address
     // app.get("/users/:service", async (req, res) => {
     //   const service = req.params.service;
