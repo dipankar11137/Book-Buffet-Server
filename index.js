@@ -29,9 +29,24 @@ async function run() {
       .collection("allBooks");
 
     // // post User
-    app.post("/users", async (req, res) => {
-      const newProduct = req.body;
-      const result = await userCollection.insertOne(newProduct);
+    //create and update a user
+    app.put("/create-user/:email", async (req, res) => {
+      const email = req.params.email;
+      const user = req.body;
+
+      const filter = { email: email };
+      const options = { upsert: true };
+
+      const updatedDoc = {
+        $set: user,
+      };
+
+      const result = await userCollection.updateOne(
+        filter,
+        updatedDoc,
+        options
+      );
+
       res.send(result);
     });
 
@@ -41,6 +56,13 @@ async function run() {
       const cursor = userCollection.find(query);
       const mainProducts = await cursor.toArray();
       res.send(mainProducts);
+    });
+
+    // post All Books
+    app.post("/allBooks", async (req, res) => {
+      const newBooks = req.body;
+      const result = await userAllBooksCollection.insertOne(newBooks);
+      res.send(result);
     });
     // // get by address
     // app.get("/users/:service", async (req, res) => {
