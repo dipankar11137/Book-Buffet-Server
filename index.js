@@ -24,22 +24,16 @@ async function run() {
     await client.connect();
     // // console.log("database connect");
     const userCollection = client.db("bookBuffet").collection("user");
-    // const acCollection = client.db("shifting-service").collection("ac");
-    // const allServicesCollection = client
-    //   .db("shifting-service")
-    //   .collection("allServices");
-    // const applianceCollection = client
-    //   .db("shifting-service")
-    //   .collection("appliance-repair");
-    // const bookingCollection = client
-    //   .db("shifting-service")
-    //   .collection("bookAppliance");
+    const userAllBooksCollection = client
+      .db("bookBuffet")
+      .collection("allBooks");
+
     // // post User
-    // app.post("/users", async (req, res) => {
-    //   const newProduct = req.body;
-    //   const result = await userCollection.insertOne(newProduct);
-    //   res.send(result);
-    // });
+    app.post("/users", async (req, res) => {
+      const newProduct = req.body;
+      const result = await userCollection.insertOne(newProduct);
+      res.send(result);
+    });
 
     // get all user
     app.get("/user", async (req, res) => {
