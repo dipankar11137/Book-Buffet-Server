@@ -24,9 +24,7 @@ async function run() {
     await client.connect();
     // // console.log("database connect");
     const userCollection = client.db("bookBuffet").collection("user");
-    const userAllBooksCollection = client
-      .db("bookBuffet")
-      .collection("allBooks");
+    const allBooksCollection = client.db("bookBuffet").collection("allBooks");
 
     // // post User
     //create and update a user
@@ -61,16 +59,24 @@ async function run() {
     // post All Books
     app.post("/books", async (req, res) => {
       const newBooks = req.body;
-      const result = await userAllBooksCollection.insertOne(newBooks);
+      const result = await allBooksCollection.insertOne(newBooks);
       res.send(result);
     });
     // get all Books
     app.get("/books", async (req, res) => {
-      console.log("paice");
       const query = {};
-      const cursor = userAllBooksCollection.find(query);
+      const cursor = allBooksCollection.find(query);
       const newCollection = await cursor.toArray();
       res.send(newCollection);
+    });
+
+    // all Book filter by  category
+    app.get("/books/:booksCategory", async (req, res) => {
+      const booksCategory = req.params.booksCategory;
+      const query = { booksCategory };
+      const cursor = allBooksCollection.find(query);
+      const user = await cursor.toArray();
+      res.send(user);
     });
     // // get by address
     // app.get("/users/:service", async (req, res) => {
