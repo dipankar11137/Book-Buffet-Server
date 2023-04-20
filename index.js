@@ -54,15 +54,23 @@ async function run() {
     app.get("/user", async (req, res) => {
       const query = {};
       const cursor = userCollection.find(query);
-      const mainProducts = await cursor.toArray();
-      res.send(mainProducts);
+      const newCollection = await cursor.toArray();
+      res.send(newCollection);
     });
 
     // post All Books
-    app.post("/allBooks", async (req, res) => {
+    app.post("/books", async (req, res) => {
       const newBooks = req.body;
       const result = await userAllBooksCollection.insertOne(newBooks);
       res.send(result);
+    });
+    // get all Books
+    app.get("/books", async (req, res) => {
+      console.log("paice");
+      const query = {};
+      const cursor = userAllBooksCollection.find(query);
+      const newCollection = await cursor.toArray();
+      res.send(newCollection);
     });
     // // get by address
     // app.get("/users/:service", async (req, res) => {
