@@ -69,6 +69,13 @@ async function run() {
       const newCollection = await cursor.toArray();
       res.send(newCollection);
     });
+    // get by id
+    app.get("/books/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const products = await allBooksCollection.findOne(query);
+      res.send(products);
+    });
 
     // all Book filter by  category
     app.get("/books/:booksCategory", async (req, res) => {
