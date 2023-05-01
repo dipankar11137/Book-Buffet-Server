@@ -69,13 +69,6 @@ async function run() {
       const newCollection = await cursor.toArray();
       res.send(newCollection);
     });
-    // get by id
-    app.get("/books/:id", async (req, res) => {
-      const id = req.params.id;
-      const query = { _id: ObjectId(id) };
-      const products = await allBooksCollection.findOne(query);
-      res.send(products);
-    });
 
     // all Book filter by  category
     app.get("/books/:booksCategory", async (req, res) => {
@@ -84,6 +77,14 @@ async function run() {
       const cursor = allBooksCollection.find(query);
       const user = await cursor.toArray();
       res.send(user);
+    });
+
+    // get books by id
+    app.get("/book/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const products = await allBooksCollection.findOne(query);
+      res.send(products);
     });
     // // get by address
     // app.get("/users/:service", async (req, res) => {
