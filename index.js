@@ -25,6 +25,9 @@ async function run() {
     // // console.log("database connect");
     const userCollection = client.db("bookBuffet").collection("user");
     const allBooksCollection = client.db("bookBuffet").collection("allBooks");
+    const allBookingBookCollection = client
+      .db("bookBuffet")
+      .collection("bookingsBook");
 
     // // post User
     //create and update a user
@@ -85,6 +88,12 @@ async function run() {
       const query = { _id: ObjectId(id) };
       const products = await allBooksCollection.findOne(query);
       res.send(products);
+    });
+    // post bookings Books
+    app.post("/bookingsBook", async (req, res) => {
+      const newBooks = req.body;
+      const result = await allBookingBookCollection.insertOne(newBooks);
+      res.send(result);
     });
     // // get by address
     // app.get("/users/:service", async (req, res) => {
