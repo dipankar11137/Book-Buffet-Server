@@ -113,6 +113,14 @@ async function run() {
       res.send(result);
     });
 
+    // get buy Books
+    app.get("/buyBooks", async (req, res) => {
+      const query = {};
+      const cursor = allBookingBookCollection.find(query);
+      const newCollection = await cursor.toArray();
+      res.send(newCollection);
+    });
+
     // // get by address
     // app.get("/users/:service", async (req, res) => {
     //   const service = req.params.service;
