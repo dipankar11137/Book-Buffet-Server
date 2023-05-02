@@ -121,11 +121,18 @@ async function run() {
       res.send(newCollection);
     });
 
-    // Delete one Service
+    // Delete one bok
     app.delete("/books/:id", async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await allBooksCollection.deleteOne(query);
+      res.send(result);
+    });
+    // Delete one booking book
+    app.delete("/bookingsBook/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await allBookingBookCollection.deleteOne(query);
       res.send(result);
     });
 
