@@ -98,12 +98,21 @@ async function run() {
       const result = await allBookingBookCollection.insertOne(newBooks);
       res.send(result);
     });
+    // get bookings Books
+    app.get("/bookingsBook", async (req, res) => {
+      const query = {};
+      const cursor = allBookingBookCollection.find(query);
+      const newCollection = await cursor.toArray();
+      res.send(newCollection);
+    });
+
     // post buy Books
     app.post("/buyBooks", async (req, res) => {
       const newBooks = req.body;
       const result = await allBuyBooksCollection.insertOne(newBooks);
       res.send(result);
     });
+
     // // get by address
     // app.get("/users/:service", async (req, res) => {
     //   const service = req.params.service;
