@@ -116,7 +116,7 @@ async function run() {
     // get buy Books
     app.get("/buyBooks", async (req, res) => {
       const query = {};
-      const cursor = allBookingBookCollection.find(query);
+      const cursor = allBuyBooksCollection.find(query);
       const newCollection = await cursor.toArray();
       res.send(newCollection);
     });
