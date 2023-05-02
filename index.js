@@ -28,6 +28,9 @@ async function run() {
     const allBookingBookCollection = client
       .db("bookBuffet")
       .collection("bookingsBook");
+    const allBuyBooksCollection = client
+      .db("bookBuffet")
+      .collection("buyBooks");
 
     // // post User
     //create and update a user
@@ -93,6 +96,12 @@ async function run() {
     app.post("/bookingsBook", async (req, res) => {
       const newBooks = req.body;
       const result = await allBookingBookCollection.insertOne(newBooks);
+      res.send(result);
+    });
+    // post buy Books
+    app.post("/buyBooks", async (req, res) => {
+      const newBooks = req.body;
+      const result = await allBuyBooksCollection.insertOne(newBooks);
       res.send(result);
     });
     // // get by address
