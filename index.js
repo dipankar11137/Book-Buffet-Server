@@ -135,6 +135,13 @@ async function run() {
       const result = await allBookingBookCollection.deleteOne(query);
       res.send(result);
     });
+    // Delete one buy book
+    app.delete("/buyBooks/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await allBuyBooksCollection.deleteOne(query);
+      res.send(result);
+    });
 
     // // get by address
     // app.get("/users/:service", async (req, res) => {
