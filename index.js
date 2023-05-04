@@ -61,6 +61,15 @@ async function run() {
       const newCollection = await cursor.toArray();
       res.send(newCollection);
     });
+    //get a single user from users
+
+    app.get("/user/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const cursor = userCollection.find(query);
+      const user = await cursor.toArray();
+      res.send(user);
+    });
 
     // post All Books
     app.post("/books", async (req, res) => {
