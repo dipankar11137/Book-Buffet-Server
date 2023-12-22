@@ -23,18 +23,19 @@ async function run() {
   try {
     await client.connect();
     // // console.log("database connect");
-    const userCollection = client.db("bookBuffet").collection("user");
-    const allBooksCollection = client.db("bookBuffet").collection("allBooks");
+    const userCollection = client.db('bookBuffet').collection('user');
+    const allBooksCollection = client.db('bookBuffet').collection('allBooks');
     const allBookingBookCollection = client
-      .db("bookBuffet")
-      .collection("bookingsBook");
+      .db('bookBuffet')
+      .collection('bookingsBook');
     const allBuyBooksCollection = client
-      .db("bookBuffet")
-      .collection("buyBooks");
+      .db('bookBuffet')
+      .collection('buyBooks');
+    const deliveryCollection = client.db('bookBuffet').collection('delivered');
 
     // // post User
     //create and update a user
-    app.put("/create-user/:email", async (req, res) => {
+    app.put('/create-user/:email', async (req, res) => {
       const email = req.params.email;
       const user = req.body;
 
@@ -55,7 +56,7 @@ async function run() {
     });
 
     // get all user
-    app.get("/user", async (req, res) => {
+    app.get('/user', async (req, res) => {
       const query = {};
       const cursor = userCollection.find(query);
       const newCollection = await cursor.toArray();
@@ -63,7 +64,7 @@ async function run() {
     });
     //get a single user from users
 
-    app.get("/user/:email", async (req, res) => {
+    app.get('/user/:email', async (req, res) => {
       const email = req.params.email;
       const query = { email };
       const cursor = userCollection.find(query);
@@ -72,13 +73,13 @@ async function run() {
     });
 
     // post All Books
-    app.post("/books", async (req, res) => {
+    app.post('/books', async (req, res) => {
       const newBooks = req.body;
       const result = await allBooksCollection.insertOne(newBooks);
       res.send(result);
     });
     // get all Books
-    app.get("/books", async (req, res) => {
+    app.get('/books', async (req, res) => {
       const query = {};
       const cursor = allBooksCollection.find(query);
       const newCollection = await cursor.toArray();
@@ -86,7 +87,7 @@ async function run() {
     });
 
     // all Book filter by  category
-    app.get("/books/:booksCategory", async (req, res) => {
+    app.get('/books/:booksCategory', async (req, res) => {
       const booksCategory = req.params.booksCategory;
       const query = { booksCategory };
       const cursor = allBooksCollection.find(query);
@@ -95,20 +96,20 @@ async function run() {
     });
 
     // get books by id
-    app.get("/book/:id", async (req, res) => {
+    app.get('/book/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const products = await allBooksCollection.findOne(query);
       res.send(products);
     });
     // post bookings Books
-    app.post("/bookingsBook", async (req, res) => {
+    app.post('/bookingsBook', async (req, res) => {
       const newBooks = req.body;
       const result = await allBookingBookCollection.insertOne(newBooks);
       res.send(result);
     });
     // get bookings Books
-    app.get("/bookingsBook", async (req, res) => {
+    app.get('/bookingsBook', async (req, res) => {
       const query = {};
       const cursor = allBookingBookCollection.find(query);
       const newCollection = await cursor.toArray();
@@ -116,14 +117,27 @@ async function run() {
     });
 
     // post buy Books
-    app.post("/buyBooks", async (req, res) => {
+    app.post('/buyBooks', async (req, res) => {
       const newBooks = req.body;
       const result = await allBuyBooksCollection.insertOne(newBooks);
       res.send(result);
     });
+    // post delivered book Books
+    app.post('/delivered', async (req, res) => {
+      const newBooks = req.body;
+      const result = await deliveryCollection.insertOne(newBooks);
+      res.send(result);
+    });
 
+    // get delivered Books
+    app.get('/delivered', async (req, res) => {
+      const query = {};
+      const cursor = deliveryCollection.find(query);
+      const newCollection = await cursor.toArray();
+      res.send(newCollection);
+    });
     // get buy Books
-    app.get("/buyBooks", async (req, res) => {
+    app.get('/buyBooks', async (req, res) => {
       const query = {};
       const cursor = allBuyBooksCollection.find(query);
       const newCollection = await cursor.toArray();
@@ -131,21 +145,21 @@ async function run() {
     });
 
     // Delete one bok
-    app.delete("/books/:id", async (req, res) => {
+    app.delete('/books/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await allBooksCollection.deleteOne(query);
       res.send(result);
     });
     // Delete one booking book
-    app.delete("/bookingsBook/:id", async (req, res) => {
+    app.delete('/bookingsBook/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await allBookingBookCollection.deleteOne(query);
       res.send(result);
     });
     // Delete one buy book
-    app.delete("/buyBooks/:id", async (req, res) => {
+    app.delete('/buyBooks/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await allBuyBooksCollection.deleteOne(query);
